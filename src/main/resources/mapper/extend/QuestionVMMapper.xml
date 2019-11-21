@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.poll.mapper.extend.QuestionVMMapper">
+ 	<select id="findById" resultMap="quessionVMResultMap">
+ 		select * from poll_question
+ 		where id in
+ 		(select question_id from poll_qq where questionnaire_id=#{id})
+ 	</select>
+ 	
+ 	<select id="findAll" resultMap="quessionVMResultMap">
+ 		select * from poll_question
+ 	</select>
+ 	
+ 	<select id="findAllByCondition" resultMap="quessionVMResultMap">
+ 		select * from poll_question where name like #{name}
+ 	</select>
+ 	
+ 	<resultMap type="com.briup.apps.poll.bean.extend.QuesstionVM" id="quessionVMResultMap">
+ 		<id column="id" property="id"></id>
+ 		<result column="name" property="name"/>
+ 		<result column="type" property="type"/>
+		<collection 
+			property="options"
+			column="id"
+			javaType="ArrayList"
+			ofType="com.briup.apps.poll.bean.Option"
+			select="com.briup.apps.poll.mapper.extend.OptionVMMapper.selectByQuestionId"></collection>
+			
+ 	</resultMap>
+</mapper>

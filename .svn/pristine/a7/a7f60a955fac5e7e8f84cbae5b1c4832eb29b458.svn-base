@@ -1,0 +1,13 @@
+package com.briup.apps.poll.service;
+
+import com.briup.apps.poll.bean.Questionnaire;
+
+public interface IQuestionnaireService {
+
+	/**
+	 * 插入问卷以及相对应的题目编号
+	 * @param questionnaire
+	 * @param ids
+	 */
+	void addQuestionnaire(Questionnaire questionnaire,long[] ids);
+}

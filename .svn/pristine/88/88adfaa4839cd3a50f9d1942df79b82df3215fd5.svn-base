@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.poll.mapper.extend.QuestionVMMapper">
+  <select id="findAll" resultMap="questionVMResultType">
+    select * from poll_question
+  </select>
+  
+  <resultMap type="com.briup.apps.poll.bean.extend.QuestionVM" id="questionVMResultType">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="type" property="type"/>
+      
+        <collection 
+          property="options" 
+          column="id"
+          javaType="ArrayList"
+          ofType="com.briup.apps.poll.bean.Option"
+          select="com.briup.apps.poll.mapper.extend.OptionVMMapper.selectByQuestionId"></collection>
+     
+  </resultMap>
+</mapper>

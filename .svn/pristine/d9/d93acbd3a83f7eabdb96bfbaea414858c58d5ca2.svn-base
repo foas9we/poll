@@ -1,0 +1,7 @@
+package com.briup.apps.poll.service;
+
+import com.briup.apps.poll.bean.School;
+
+public interface ISchoolService {
+	School findById(long id);
+}

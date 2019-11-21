@@ -1,0 +1,54 @@
+package com.briup.apps.poll.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.briup.apps.poll.bean.Option;
+import com.briup.apps.poll.bean.Question;
+import com.briup.apps.poll.bean.QuestionExample;
+import com.briup.apps.poll.bean.extend.QuestionVM;
+import com.briup.apps.poll.mapper.OptionMapper;
+import com.briup.apps.poll.mapper.QuestionMapper;
+import com.briup.apps.poll.mapper.extend.QuestionVMMapper;
+import com.briup.apps.poll.service.IQuestionService;
+
+@Service
+public class QuestionServiceImpl implements IQuestionService {
+	@Autowired
+	private QuestionMapper questionMapper;
+	
+	@Autowired
+	private QuestionVMMapper questionVMMapper;
+	
+	@Autowired
+	private OptionMapper optionMapper;
+	
+
+	@Override
+	public List<Question> findAll() {
+		return questionMapper.selectByExampleWithBLOBs(new QuestionExample());
+	}
+
+	@Override
+	public List<QuestionVM> findAllQuestionVM() {
+		return questionVMMapper.findAll();
+	}
+
+
+	@Override
+	public void addQuestion(Question question, List<Option> options) {
+		questionMapper.insert(question);
+		for (Option option : options) {
+			option.setQuestionId(question.getId());
+			optionMapper.insert(option);
+		}
+	}
+
+	@Override
+	public List<QuestionVM> findQuestionVMByNaireId(long naireId) {
+		return questionVMMapper.findByQuestionnaireId(naireId);
+	}
+
+}

@@ -1,0 +1,33 @@
+package com.briup.apps.poll.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.briup.apps.poll.bean.QQ;
+import com.briup.apps.poll.bean.Questionnaire;
+import com.briup.apps.poll.mapper.QQMapper;
+import com.briup.apps.poll.mapper.QuestionnaireMapper;
+import com.briup.apps.poll.service.IQuestionnaireService;
+
+@Service
+public class QuestionnaireServiceImpl implements IQuestionnaireService {
+
+	@Autowired
+	private QuestionnaireMapper questionnaireMapper;
+	
+	@Autowired
+	private QQMapper qqMapper;
+	
+	
+	@Override
+	public void addQuestionnaire(Questionnaire questionnaire, long[] ids) {
+		questionnaireMapper.insert(questionnaire);
+		for (Long questionId : ids) {
+			QQ qq = new QQ();
+			qq.setQuestionId(questionId);
+			qq.setQuestionnaireId(questionnaire.getId());
+			qqMapper.insert(qq);
+		}
+	}
+
+}

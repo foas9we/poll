@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.poll.mapper.extend.QuestionnaireVMMapper">
+ 	<select id="findById" resultMap="questionnaireVMResultMap">
+ 		select  qa.*,question_id 
+ 		from poll_questionnaire qa,poll_qq qq
+ 		where qa.id = #{id}
+ 		and qq.questionnaire_id = qa.id
+ 	</select>
+ 	
+ 	<resultMap type="com.briup.apps.poll.bean.extend.QuestionnaireVM" id="questionnaireVMResultMap">
+ 		<id column="id" property="id"/>
+ 		<result column="name" property="name"/>
+ 		<result column="description" property="description"/>
+ 	
+ 		<collection 
+ 			property="questions"
+ 			column="question_id"
+ 			select="com.briup.apps.poll.mapper.QuestionMapper.selectByPrimaryKey"
+ 			></collection>
+ 	</resultMap>
+ 	
+</mapper>
